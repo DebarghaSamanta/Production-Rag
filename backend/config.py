@@ -1,15 +1,11 @@
-"""
-If a number or string appears more than once in the codebase change here.
-"""
-
 from pathlib import Path
 from dotenv import load_dotenv
 import os
 
 load_dotenv() 
-#--------OPen router from en----------
-OPENROUTER_API_KEY: str  = os.getenv("OPENROUTER_API_KEY", "")
-OPENROUTER_BASE_URL: str = "https://openrouter.ai/api/v1"
+#--------GROQ API----------
+OPENROUTER_API_KEY: str  = os.getenv("GROQ_API_KEY", "")
+OPENROUTER_BASE_URL: str = "https://api.groq.com/openai/v1"
 
 #----------paths----------------
 PROJECT_ROOT     = Path(__file__).parent
@@ -30,10 +26,10 @@ EMBEDDING_BATCH_SIZE: int  = 64
  #Vector store
 CHROMA_COLLECTION_NAME: str = "rag_documents"  
 #Retrieval
-TOP_K: int = 8                 
-SIMILARITY_THRESHOLD: float = 0.0   
+TOP_K: int = 12            
+SIMILARITY_THRESHOLD: float = 0.45 
 #Generation
-LLM_MODEL: str         = "meta-llama/llama-3.3-70b-instruct:free" 
+LLM_MODEL: str         = "llama-3.1-8b-instant" 
 LLM_TEMPERATURE: float = 0.0   
 LLM_MAX_TOKENS: int    = 1024 
 MAX_CITATION_CHUNKS: int = 3   
@@ -47,15 +43,14 @@ MAX_ITERATIONS: int  = 2
 #Citation
 MAX_CITATION_CHUNKS: int = 3
 
-SYSTEM_PROMPT: str = """You are a precise research assistant. Answer the user's question
-using ONLY the context chunks provided below. Do not use prior knowledge.
+USE_HYBRID_SEARCH: bool = True
 
-Rules:
-- If the answer is in the context, answer clearly and cite the source.
-- If the answer is NOT in the context, say: "I could not find this in the provided documents."
-- Never speculate or hallucinate facts.
-- Keep your answer concise and factual.
-"""
+SYSTEM_PROMPT: str = """You are a document analysis assistant.
+You MUST only use information from the numbered chunks provided.
+If the chunks do not contain the answer, you MUST respond with exactly:
+"I could not find this in the provided documents."
+Quoting from memory or general knowledge is strictly forbidden.
+Every sentence must end with [Chunk N]."""
 
 PROMPT_TEMPLATE: str = """
 Context chunks (use these to answer):
@@ -63,5 +58,11 @@ Context chunks (use these to answer):
 
 Question: {question}
 
-Answer (you MUST cite sources using exactly this format: [Chunk 1], [Chunk 2] — use regular square brackets only):
+Instructions:
+- Answer using ONLY the chunks above
+- After EVERY sentence write [Chunk N] where N is the exact number shown in the context
+- The chunk number MUST match the label shown above — do not guess or default to [Chunk 1]
+- Use regular square brackets only: [Chunk 1] not (Chunk 1)
+
+Answer:
 """

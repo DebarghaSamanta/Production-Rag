@@ -10,7 +10,7 @@ python-dotenv
 pytest
 pytest-cov
 openai
-
+rank-bm25
 # ── Optional / Future Use (commented out until needed) ─────────────────────────
 # sentence-transformers==3.0.1   # Local embedding model (no API key needed)
 # rank-bm25==0.2.2               # BM25 keyword retrieval for hybrid search

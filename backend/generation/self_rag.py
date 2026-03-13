@@ -6,7 +6,20 @@ from config import TOP_K, MAX_ITERATIONS
 
 
 def needs_retrieval(query: str) -> bool:
-    prompt = f"""Does answering this question require searching through documents?
+    prompt = f"""You are working with a document question-answering system.
+The user is asking a question that should be answered using the provided documents.
+
+Should we search the documents to answer this question?
+Answer 'yes' for ALL of these cases:
+- Questions about specific terms, clauses, or sections in a document
+- Requests to simplify, explain, or summarize something from a document
+- Questions about people, companies, agreements, or contracts
+- Any legal or technical term that may be defined in the document
+
+Answer 'no' ONLY for completely general questions with no document context needed:
+- Pure math ("what is 2+2")
+- General world knowledge ("what is the capital of France")
+
 Question: {query}
 Reply with only 'yes' or 'no'."""
     result = critique(prompt)
@@ -16,27 +29,24 @@ Reply with only 'yes' or 'no'."""
 
 def is_answer_supported(answer: str, chunks: list[dict]) -> bool:
     context = "\n\n".join(f"Chunk {i+1}: {c['text'][:300]}" for i, c in enumerate(chunks))
-    prompt = f"""Is every claim in the answer directly supported by the context below?
+    prompt = f"""Does the answer below contain at least one [Chunk N] citation AND is that information present somewhere in the context?
 Context:
 {context}
 
 Answer: {answer}
 
-Reply with only 'yes', 'no', or 'partial'."""
-    result = critique(prompt)
-    print(f"  [ISSUP decision]     → {result}")
-    return "yes" in result
+Reply 'yes' if the answer is grounded in the context with a citation.
+Reply 'no' only if the answer contains information completely absent from the context or has zero citations.
+Reply with only 'yes' or 'no'."""
 
 
 def is_answer_complete(query: str, answer: str) -> bool:
-    prompt = f"""Does this answer fully and completely address the question?
+    prompt = f"""Does this answer make a reasonable attempt to address the question using document content?
 Question: {query}
 Answer: {answer}
+Reply 'yes' if the answer is relevant and substantive.
+Reply 'no' only if the answer is empty, refuses to answer, or is completely off-topic.
 Reply with only 'yes' or 'no'."""
-    result = critique(prompt)
-    print(f"  [ISUSE decision]     → {result}")
-    return "yes" in result
-
 
 def refine_query(original: str, iteration: int) -> str:
     prompt = f"""This search query did not return a complete answer (attempt {iteration}).

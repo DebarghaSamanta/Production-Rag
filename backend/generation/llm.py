@@ -21,7 +21,7 @@ def _call_with_retry(client, model, messages, max_tokens, retries=3) -> str:
             return response.choices[0].message.content.strip()
         except Exception as e:
             if "429" in str(e) and attempt < retries - 1:
-                wait = 2 ** attempt
+                wait = 10 * (attempt+1)
                 print(f"[Rate limit] waiting {wait}s...")
                 time.sleep(wait)
             else:
