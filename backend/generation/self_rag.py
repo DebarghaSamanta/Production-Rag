@@ -38,6 +38,9 @@ Answer: {answer}
 Reply 'yes' if the answer is grounded in the context with a citation.
 Reply 'no' only if the answer contains information completely absent from the context or has zero citations.
 Reply with only 'yes' or 'no'."""
+    result = critique(prompt)                       
+    print(f"  [ISSUP decision]     → {result}")      
+    return "yes" in result                           
 
 
 def is_answer_complete(query: str, answer: str) -> bool:
@@ -47,6 +50,9 @@ Answer: {answer}
 Reply 'yes' if the answer is relevant and substantive.
 Reply 'no' only if the answer is empty, refuses to answer, or is completely off-topic.
 Reply with only 'yes' or 'no'."""
+    result = critique(prompt)                        
+    print(f"  [ISUSE decision]     → {result}")      
+    return "yes" in result                           
 
 def refine_query(original: str, iteration: int) -> str:
     prompt = f"""This search query did not return a complete answer (attempt {iteration}).
