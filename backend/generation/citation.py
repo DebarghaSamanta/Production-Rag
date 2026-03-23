@@ -18,14 +18,6 @@ def extract_citations(answer: str, chunks: list[dict]) -> list[dict]:
     return sorted(citations, key=lambda c: c["chunk_number"])
 
 
-def format_response(query: str, answer: str, chunks: list[dict]) -> dict:
-    return {
-        "query":     query,
-        "answer":    answer,
-        "citations": extract_citations(answer, chunks),
-    }
-
-
 def render(response: dict) -> str:
     lines = [
         f"Question: {response['query']}",
@@ -38,3 +30,21 @@ def render(response: dict) -> str:
         lines.append(f"  Excerpt: {c['text'][:300]}...")
 
     return "\n".join(lines)
+
+def _remove_repetition(text: str) -> str:
+    sentences = text.replace("\n", " ").split(". ")
+    seen, cleaned = set(), []
+    for s in sentences:
+        fingerprint = s.strip().lower()[:80]
+        if fingerprint not in seen:
+            seen.add(fingerprint)
+            cleaned.append(s)
+    return ". ".join(cleaned)
+
+def format_response(query: str, answer: str, chunks: list[dict]) -> dict:
+    answer = _remove_repetition(answer)  
+    return {
+        "query":     query,
+        "answer":    answer,
+        "citations": extract_citations(answer, chunks),
+    }

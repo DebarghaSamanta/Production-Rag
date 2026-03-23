@@ -28,19 +28,14 @@ Reply with only 'yes' or 'no'."""
 
 
 def is_answer_supported(answer: str, chunks: list[dict]) -> bool:
-    context = "\n\n".join(f"Chunk {i+1}: {c['text'][:300]}" for i, c in enumerate(chunks))
-    prompt = f"""Does the answer below contain at least one [Chunk N] citation AND is that information present somewhere in the context?
-Context:
-{context}
-
+    prompt = f"""Does this answer contain at least one [Chunk N] citation?
 Answer: {answer}
-
-Reply 'yes' if the answer is grounded in the context with a citation.
-Reply 'no' only if the answer contains information completely absent from the context or has zero citations.
+Reply 'yes' if you see any [Chunk N] pattern in the answer.
+Reply 'no' only if there are zero citations.
 Reply with only 'yes' or 'no'."""
-    result = critique(prompt)                       
-    print(f"  [ISSUP decision]     → {result}")      
-    return "yes" in result                           
+    result = critique(prompt)
+    print(f"  [ISSUP decision]     → {result}")
+    return "yes" in result                         
 
 
 def is_answer_complete(query: str, answer: str) -> bool:

@@ -17,6 +17,7 @@ def _call_with_retry(client, model, messages, max_tokens, retries=3) -> str:
                 messages=messages,
                 temperature=0.0,
                 max_tokens=max_tokens,
+                stop=["Question:", "Sources:", "Context chunks:"]
             )
             return response.choices[0].message.content.strip()
         except Exception as e:
