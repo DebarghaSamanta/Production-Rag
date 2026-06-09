@@ -11,10 +11,10 @@ pytest
 pytest-cov
 openai
 rank-bm25
-# ── Optional / Future Use (commented out until needed) ─────────────────────────
-# sentence-transformers==3.0.1   # Local embedding model (no API key needed)
-# rank-bm25==0.2.2               # BM25 keyword retrieval for hybrid search
-# cohere==5.5.8                  # Reranker API (retrieval/reranker.py)
-# fastapi==0.111.0               # Backend API for frontend
-# uvicorn==0.30.1                # ASGI server for FastAPI
-# streamlit==1.36.0              # Quick frontend prototype
+requests
+langchain-text-splitters
+pypdf
+sentence-transformers
+fastapi
+unicorn
+groq
