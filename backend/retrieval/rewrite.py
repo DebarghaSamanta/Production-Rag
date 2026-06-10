@@ -1,14 +1,15 @@
+# backend/retrieval/rewrite.py
 import os
 import re
 from groq import Groq
 from dotenv import load_dotenv
-load_dotenv()  # Load environment variables from .env file
-api_key = os.getenv("GROQ_API_KEY")
+load_dotenv()
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 class QueryRewriter:
     def __init__(self):
         # Initialize the Groq client using your configured API key
-        self.client = Groq(api_key=api_key)
-        self.model = "llama3-8b-8192"
+        self.client = Groq(api_key=GROQ_API_KEY)
+        self.model = "llama-3.1-8b-instant"
 
     def generate_search_queries(self, raw_query: str) -> list[str]:
         """
@@ -68,5 +69,5 @@ if __name__ == "__main__":
     
     print("\n--- QUERY EXPANSION AUDIT ---")
     print(f"Original Raw Input: '{test_query}'\n")
-    for idx, q in enumerate(expanded, 1):
+    for idx, q in enumerate(expanded, 2):
         print(f"Search Vector {idx}: {q}")

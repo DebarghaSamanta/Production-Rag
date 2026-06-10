@@ -2,7 +2,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from api.router_ingest import router as ingest_router
-
+from api.query_router import router as query_router
 app = FastAPI(
     title="arXiv RAG Backend Engine",
     description="FastAPI backend serving the hybrid retrieval and generation layers",
@@ -21,7 +21,7 @@ app.add_middleware(
 
 # Include the ingestion router under a structured API version prefix
 app.include_router(ingest_router, prefix="/api/v1", tags=["Ingestion"])
-
+app.include_router(query_router,  prefix="/api/v1", tags=["Retrieval"])
 @app.get("/")
 async def root():
     return {
