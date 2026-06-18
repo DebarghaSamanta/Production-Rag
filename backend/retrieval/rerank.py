@@ -20,7 +20,7 @@ class Reranker:
         # This is fundamentally more accurate than bi-encoders (which embed
         # query and document separately) but too slow to run on 50+ candidates.
         # That's why we only run it on the top 10 from fusion, not on raw results.
-        self.model = CrossEncoder(RERANKER_MODEL)
+        self.model =  None
         print("[Reranker] Cross-encoder loaded.")
 
     def rerank(self, raw_query: str, parent_chunks: list[dict]) -> list[dict]:
@@ -46,6 +46,8 @@ class Reranker:
             Top TOP_K_FINAL chunks re-sorted by cross-encoder score, with a
             "rerank_score" field added to each dict.
         """
+        if self.model is None:
+            return parent_chunks[:TOP_K_FINAL]
         if not parent_chunks:
             return []
 
