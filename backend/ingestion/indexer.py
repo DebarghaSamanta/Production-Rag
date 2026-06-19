@@ -85,3 +85,10 @@ class DocumentIndexer:
             
         print("✅ BM25 sparse index updated successfully.")
         print(f"--- Ingestion Complete! Core DB Assets saved in: {CHROMA_DB_DIR} ---\n")
+if __name__ == "__main__":
+    from ingestion.chunker import process_all_pdfs_hierarchical
+
+    parents, children = process_all_pdfs_hierarchical()
+    indexer = DocumentIndexer()
+    indexer.index_hierarchical_data(parents, children)
+    print("Indexing complete.")

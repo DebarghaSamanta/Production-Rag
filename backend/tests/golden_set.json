@@ -1,0 +1,50 @@
+[
+  {
+    "id": "q1",
+    "question": "What specifically does the Masked-Prediction Feature Extraction Module in the 2025 single-stage framework predict, and how does it explicitly handle audio-visual alignment bypass attacks?",
+    "ground_truth": "The module predicts the next frame's features from previous frames using two unimodal modules and one cross-modal module. By checking within-modality and cross-modality discrepancies explicitly, it can detect local inconsistencies even when an attack preserves cross-modal audio-visual alignment.",
+    "expected_keywords": ["next frame", "unimodal", "cross-modal", "intra-modal", "alignment", "discrepancies"],
+    "expected_source": "Next-Frame Feature Prediction for Multimodal Deepfake Detection and Temporal Localization.pdf",
+    "expected_section_keywords": ["Masked-Prediction", "Feature Extraction", "unimodal", "cross-modal", "inconsistencies"]
+  },
+  {
+    "id": "q2",
+    "question": "In the Undercover Deepfakes architecture, what precise role does Scaling and Shifting (SSF) play when fine-tuning the spatial feature extractor?",
+    "ground_truth": "Scaling and Shifting (SSF) modulates deep features to alleviate the distribution mismatch between the pre-trained task (ImageNet-21K) and the downstream deepfake feature extraction task by introducing scale and shift parameters after each operation while keeping original network parameters frozen.",
+    "expected_keywords": ["modulates", "distribution mismatch", "frozen", "scale", "shift", "fine-tuning"],
+    "expected_source": "Undercover Deepfakes: Detecting Fake Segments in Videos.pdf",
+    "expected_section_keywords": ["Vision Transformer", "Scaling and Shifting", "SSF", "mismatch", "parameters"]
+  },
+  {
+    "id": "q3",
+    "question": "Compare the core temporal modeling mechanisms used by Anshul et al. (2025) versus Saha et al. (2023) to establish boundaries for localized fake segments.",
+    "ground_truth": "Anshul et al. utilize a Causal Transformer Encoder/Decoder to model temporal context alongside a localized Convolutional Cross-Attention window (w=9) and a multi-level feature pyramid (PCA-FPN). In contrast, Saha et al. employ a Timeseries Transformer (TsT) processing sequentially windowed feature vectors combined with a post-processing sliding window smoothing algorithm (size 15) using majority voting.",
+    "expected_keywords": ["Causal Transformer", "Convolutional Cross-Attention", "Timeseries Transformer", "smoothing", "majority voting", "PCA-FPN"],
+    "expected_source": "Next-Frame Feature Prediction for Multimodal Deepfake Detection and Temporal Localization.pdf; Undercover Deepfakes: Detecting Fake Segments in Videos.pdf",
+    "expected_section_keywords": ["temporal", "attention", "window", "Transformer", "smoothing", "convolutional"]
+  },
+  {
+    "id": "q4",
+    "question": "How do the modal inputs differ fundamentally between the RAG indexed papers when executing temporal localization tasks?",
+    "ground_truth": "The framework by Anshul et al. is fundamentally multimodal, extracting and fusing both audio (ViT encoder) and visual (AV-HuBERT ResNet-18) features to capture inter- and intra-modal errors. Conversely, the framework by Saha et al. focuses strictly on the visual modality, performing face extraction/alignment and tracking spatial-temporal variances across video frames.",
+    "expected_keywords": ["multimodal", "audio", "visual", "AV-HuBERT", "ViT", "spatial-temporal"],
+    "expected_source": "Next-Frame Feature Prediction for Multimodal Deepfake Detection and Temporal Localization.pdf; Undercover Deepfakes: Detecting Fake Segments in Videos.pdf",
+    "expected_section_keywords": ["modality", "audio", "visual", "encoder", "embeddings", "face"]
+  },
+  {
+    "id": "q5",
+    "question": "What optimization loss functions are introduced by the 2025 Next-Frame prediction model to explicitly guide the separation of real and deepfake frame representations?",
+    "ground_truth": "The model incorporates an average frame-level contrastive loss calculated across three separate streams (audio, visual, and audio-visual). It works alongside binary cross-entropy or regression losses to pull predicted and actual frame features closer for real samples while pushing them apart for deepfakes.",
+    "expected_keywords": ["contrastive loss", "average", "audio", "visual", "audio-visual", "pushing apart", "real", "deepfake"],
+    "expected_source": "Next-Frame Feature Prediction for Multimodal Deepfake Detection and Temporal Localization.pdf",
+    "expected_section_keywords": ["Loss Functions", "contrastive", "L_contrast", "BCE"]
+  },
+  {
+    "id": "q6",
+    "question": "According to the dataset construction descriptions in both text indices, what are the average lengths or ratios typically associated with localized fake injection windows?",
+    "ground_truth": "In the LAV-DF dataset used by Anshul et al., fake segments range from 0 to 1.6 seconds with an average length of 0.65 seconds (89.26% under 1 second). In the dataset built by Saha et al. using FF++, fake frames average 24.3% of the video for single-segment fakes and 41.1% for two-segment fakes, with segment lengths manually targeted or randomly sampled at lengths like 125, 150, or 175 frames.",
+    "expected_keywords": ["0.65 seconds", "1 second", "24.3%", "41.1%", "125", "150", "175", "frames"],
+    "expected_source": "Next-Frame Feature Prediction for Multimodal Deepfake Detection and Temporal Localization.pdf; Undercover Deepfakes: Detecting Fake Segments in Videos.pdf",
+    "expected_section_keywords": ["Dataset", "LavDF", "segments", "frames", "ratio", "length"]
+  }
+]
