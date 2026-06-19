@@ -17,19 +17,19 @@
   },
   {
     "id": "q3",
-    "question": "Compare the core temporal modeling mechanisms used by Anshul et al. (2025) versus Saha et al. (2023) to establish boundaries for localized fake segments.",
-    "ground_truth": "Anshul et al. utilize a Causal Transformer Encoder/Decoder to model temporal context alongside a localized Convolutional Cross-Attention window (w=9) and a multi-level feature pyramid (PCA-FPN). In contrast, Saha et al. employ a Timeseries Transformer (TsT) processing sequentially windowed feature vectors combined with a post-processing sliding window smoothing algorithm (size 15) using majority voting.",
-    "expected_keywords": ["Causal Transformer", "Convolutional Cross-Attention", "Timeseries Transformer", "smoothing", "majority voting", "PCA-FPN"],
-    "expected_source": "Next-Frame Feature Prediction for Multimodal Deepfake Detection and Temporal Localization.pdf; Undercover Deepfakes: Detecting Fake Segments in Videos.pdf",
-    "expected_section_keywords": ["temporal", "attention", "window", "Transformer", "smoothing", "convolutional"]
+    "question": "In the Undercover Deepfakes architecture, how does Scaling and Shifting fine-tune the Vision Transformer for deepfake detection without updating original weights?",
+    "ground_truth": "SSF freezes the original ViT network parameters and introduces learnable scale (γ) and shift (β) parameters after every operation including multi-head self-attention, MLP, and layer normalization. The transformation applied is y = γ·x + β where γ and β are d-dimensional vectors, learning a linear transformation to alleviate distribution mismatch between ImageNet-21K pretraining and the downstream deepfake detection task.",
+    "expected_keywords": ["frozen", "scale", "shift", "gamma", "beta", "distribution mismatch", "linear transformation", "multi-head self-attention", "MLP", "layer normalization"],
+    "expected_source": "Undercover Deepfakes Detecting Fake Segments in Videos.pdf",
+    "expected_section_keywords": ["SSF", "Scaling", "Shifting", "fine-tuning", "frozen", "downstream"]
   },
   {
     "id": "q4",
-    "question": "How do the modal inputs differ fundamentally between the RAG indexed papers when executing temporal localization tasks?",
-    "ground_truth": "The framework by Anshul et al. is fundamentally multimodal, extracting and fusing both audio (ViT encoder) and visual (AV-HuBERT ResNet-18) features to capture inter- and intra-modal errors. Conversely, the framework by Saha et al. focuses strictly on the visual modality, performing face extraction/alignment and tracking spatial-temporal variances across video frames.",
-    "expected_keywords": ["multimodal", "audio", "visual", "AV-HuBERT", "ViT", "spatial-temporal"],
-    "expected_source": "Next-Frame Feature Prediction for Multimodal Deepfake Detection and Temporal Localization.pdf; Undercover Deepfakes: Detecting Fake Segments in Videos.pdf",
-    "expected_section_keywords": ["modality", "audio", "visual", "encoder", "embeddings", "face"]
+    "question": "What are the exact architecture parameters of the Timeseries Transformer used for temporal deepfake segmentation and how does its smoothing algorithm work?",
+    "ground_truth": "The TsT uses ViT feature windows of size W=5 frames with overlap of 4 frames as input. It has 8 transformer blocks with 8-headed attention where each attention head has dimension 512, followed by 1D global average pooling before the MLP head. For smoothing noisy frame-level predictions, majority voting is applied over a sliding window of size 15, taking votes from past and future frames around each prediction.",
+    "expected_keywords": ["window", "overlap", "transformer blocks", "attention", "512", "global average pooling", "smoothing", "majority voting", "15", "frame-level"],
+    "expected_source": "Undercover Deepfakes Detecting Fake Segments in Videos.pdf",
+    "expected_section_keywords": ["Timeseries Transformer", "TsT", "window", "smoothing", "majority voting", "temporal"]
   },
   {
     "id": "q5",

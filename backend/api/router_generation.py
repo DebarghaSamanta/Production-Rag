@@ -39,11 +39,17 @@ class CitationEntry(BaseModel):
     section_id: int
     parent_id:  str
 
+class RetrievedChunk(BaseModel):
+    source:     str
+    section_id: int
+    parent_id:  str
+    text:       str
 
 class GenerationResponse(BaseModel):
     original_query:      str
     answer:              str
     citation_map:        dict[str, CitationEntry]
+    context_chunks:      list[RetrievedChunk] 
     prompt_version:      str
     self_rag_iterations: int
     critique:            dict
@@ -162,6 +168,15 @@ async def run_generation_pipeline(payload: GenerationRequest):
             original_query      = raw_query,
             answer              = best_gen_result["answer"],
             citation_map        = citation_map,
+            context_chunks      = [                        
+                RetrievedChunk(
+                    source     = c["metadata"].get("source", ""),
+                    section_id = c["metadata"].get("section_id", -1),
+                    parent_id  = c["metadata"].get("parent_id", ""),
+                    text       = c.get("text", ""),
+                )
+                for c in context_chunks
+            ],
             prompt_version      = best_gen_result["prompt_version"],
             self_rag_iterations = iteration,
             critique            = best_critique,
