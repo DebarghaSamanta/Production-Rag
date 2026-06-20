@@ -96,12 +96,9 @@ GROQ_API_KEY=your_key_here
 
 **Add your papers**
 
-Drop PDF files into `backend/raw_data/`. The system is built around deepfake detection papers but works with any academic PDFs.
+Run the ingestion api about the topic you want to search for it will download and store 2 reasearch papers in raw_data/. The system is built around deepfake detection papers but works with any academic PDFs.
 
-**Index the papers** (run once per new paper batch)
-```bash
-python -m ingestion.indexer
-```
+
 
 **Start the API**
 ```bash
@@ -149,7 +146,7 @@ python -m tests.golden_eval
 
 ```
 backend/
-├── raw_data/           put your PDF files here
+├── raw_data/           your PDF files are stored here
 ├── ingestion/          converts PDFs into searchable indexes
 ├── retrieval/          finds relevant content for each query
 ├── generation/         produces cited answers from retrieved content
@@ -188,4 +185,4 @@ backend/
 
 ## Author
 
-Built as a research tool for the deepfake detection domain. Designed to be extended to any academic domain by swapping the paper collection in `raw_data/`.
+Built as a research tool for the computer science(machine learning) domain. 
