@@ -25,7 +25,7 @@ def render_dashboard():
     print("   arXiv RAG  —  Monitoring Dashboard")
     print("=" * 65)
 
-    if stats.get("total_queries", 0) == 0:
+    if stats.get("total", 0) == 0:
         print("\n  No queries logged yet. Run some queries first.\n")
         return
 
